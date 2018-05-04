@@ -1,0 +1,54 @@
+<ion-view view-title="Detalles del soporte">
+  <ion-nav-buttons side="right">
+    <button ng-if="false" ng-click="showAccionesSoporte($event)" class="button button-icon ion-more"></button>
+  </ion-nav-buttons>
+  <ion-content>
+    <div class="list item-text-wrap">
+      <div class="item item-avatar">
+        <img class="dark-bg" src="pics/{{soporte.logo}}"/>
+        <h2>{{soporte.lugar.nombre}}</h2>
+        <p>{{soporte.tsCreacion}}</p>
+      </div>
+      <a class="item item-icon-left item-icon-right" ng-click="showModalEstadoSoporte($event)">
+        <i class="icon ion-ios-pulse-strong"></i>Estado
+        <p>{{soporte.estadoSoporte ? soporte.estadoSoporte :'&nbsp;'}}</p>
+        <i class="icon ion-chevron-down icon-accessory"></i>
+      </a>
+      <a class="item item-icon-left item-icon-right">
+        <i class="icon ion-ios-person"></i>Abonado<p>{{soporte.abonado.nombre ? soporte.abonado.nombre :'&nbsp;'}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </a>
+      <a ng-click="showMapaSoporte()" class="item item-icon-left item-icon-right">
+        <i class="icon ion-location"></i>Direccion<p>{{soporte.lugar.direccion ? soporte.lugar.direccion :'&nbsp;'}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </a>
+      <a class="item item-icon-left" href="tel:{{soporte.lugar.telefono}}">
+        <i class="icon ion-ios-telephone"></i>Telefono<p>{{soporte.lugar.telefono ? soporte.lugar.telefono :'&nbsp;'}}</p>
+      </a>
+      <a class="item item-icon-left">
+        <i class="icon ion-android-calendar"></i>Iniciado<p>{{soporte.tsInicio ? soporte.tsInicio :'&nbsp;'}}</p>
+      </a>
+      <a class="item item-icon-left">
+        <i class="icon ion-android-calendar"></i>Cerrado<p>{{soporte.tsCierre ? soporte.tsCierre :'&nbsp;'}}</p>
+      </a>
+      <a class="item item-icon-left item-icon-right item-positive" href="#/soporte/{{soporte.idSoporte}}/notas">
+        <i class="icon ion-clipboard"></i><span>Ver notas</span>
+        <span ng-if="false" class="badge badge-positive">10</span>
+        <i ng-if="true" class="icon ion-chevron-right icon-accessory"></i>
+      </a>
+    </div>
+  </ion-content>
+  <ion-footer-bar style="padding: 0px;">
+    <div class="button-bar" ng-if="soporte.idSoporte">
+      <button ng-if="!soporte.tsInicio" ng-click="iniciarSoporte(soporte)" class="button border-radius-none ion-ios-play button-balanced">&nbsp;&nbsp;INICIAR SOPORTE</button>
+      <button ng-if="soporte.tsInicio && !soporte.tsCierre" ng-click="showModalCerrarSoporte()" class="button border-radius-none ion-locked button-assertive">&nbsp;&nbsp;CERRAR SOPORTE</button>
+    </div>
+  </ion-footer-bar>
+  <mfb-menu position="br" effect="slidein-spring" toggling-method="click" 
+            resting-icon="ion-plus-round" active-icon="ion-close-round" 
+            menu-state="floatMenuState" class="mfb-has-footer">
+    <mfb-button icon="ion-android-attach" label="Adjuntar archivo"></mfb-button>
+    <mfb-button ng-click="showActionSheetFoto()" icon="ion-camera" label="Añadir foto"></mfb-button>
+    <mfb-button ng-click="showModalNotaSoporte()" icon="ion-clipboard" label="Ver / añadir notas"></mfb-button>
+  </mfb-menu>
+</ion-view>

@@ -1,0 +1,102 @@
+<ion-side-menus enable-menu-with-back-views="false">
+  <!-- Left menu -->
+  <ion-side-menu side="{{menu.posicion}}" class="menu menu-{{menu.posicion}}">
+    <ion-header-bar class="bar-dark">
+      <h1 class="title title-left"><i class="icon icon-medium ion-android-person"></i> {{usuario.name}}</h1>
+    </ion-header-bar>
+    <ion-content>
+      <ion-list>
+        <ion-item menu-close href="#/home" class="item-icon-left item-icon-medium"><i class="icon ion-home"></i> Home</ion-item>
+        <ion-item ng-if="checkClienteHasModuloSoportes()" menu-close href="#/soportes" class="item-icon-left item-icon-medium"><i class="icon ion-settings"></i> Soportes <span class="badge badge-assertive">{{menu.badges.soporte}}</span></ion-item>
+        <!--<ion-item ng-if="checkSupervisionSoportes()" menu-close href="#/supervisor/soportes" class="item-icon-left item-icon-medium"><i class="icon ion-settings"></i> Supervision <span class="badge badge-assertive">{{menu.badges.supervision}}</span></ion-item>-->
+        <ion-item ng-if="checkClienteHasModuloRutinas()" menu-close href="#/rutinas" class="item-icon-left item-icon-medium"><i class="icon ion-android-checkmark-circle"></i> Rutinas <span class="badge badge-assertive">{{menu.badges.rutina}}</span></ion-item>
+        <ion-item ng-if="checkClienteHasModuloMensajes()" menu-close href="#/mensajes" class="item-icon-left item-icon-medium"><i class="icon ion-android-textsms"></i> Mensajes <span class="badge badge-assertive">{{menu.badges.mensaje}}</span></ion-item>
+        <div class="item item-divider">Opciones</div>
+        <ion-item menu-close href="#/configuracion" class="item-icon-left item-icon-medium"><i class="icon ion-gear-b"></i> Configuracion</ion-item>
+        <ion-item menu-close href="#" ng-click="logout()" class="item-icon-left item-icon-medium"><i class="icon ion-android-exit"></i> Cerrar sesion</ion-item>
+      </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar-dark" style="padding:0px;">
+      <div class="button-bar">
+        <button ng-click="showModalEstadoUsuario()" style="text-align:left;" class="button">
+          <i class="ion-record" ng-class="estadoUsuarioColorClass()"></i>
+          <span ng-class="(usuarioEstado.idEstadoUsuario) ? '' : 'empty-text'">&nbsp;&nbsp;{{(usuarioEstado.idEstadoUsuario) ? usuarioEstado.estado : 'Sin estado'}}</span>
+          <i class="ion-chevron-down" style="float: right; color: #888;"></i>
+        </button>
+      </div>
+    </ion-footer-bar>
+  </ion-side-menu>
+  <!-- Content -->
+  <ion-side-menu-content edge-drag-threshold="150">
+    <!-- The nav bar that will be updated as we navigate between views. -->
+    <ion-nav-bar class="bar-positive" on-hold="showModalDebug()">
+      <ion-nav-back-button></ion-nav-back-button>
+      <ion-nav-buttons side="left">
+        <button menu-toggle="left" ng-if="(menu.posicion === 'left')" class="button button-icon button-clear ion-navicon"></button>
+      </ion-nav-buttons>
+      <ion-nav-buttons side="right">
+        <button menu-toggle="right" ng-if="(menu.posicion === 'right')" class="button button-icon button-clear ion-navicon"></button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-view name="main-content"></ion-nav-view>
+  </ion-side-menu-content>
+</ion-side-menus>
+
+<div ng-if="progressBar.active" style="z-index: 5; background-image: url(img/loadbar.gif); position: absolute; 
+     width: 100%; height: 5px; display: block">
+</div>
+
+<i ng-show="false" class="icon ion-wifi" style="color: {{networkStatus}}; font-size: 22px; position: absolute; top: 10px; right: 80px; z-index: 5"></i>
+
+<div ng-show="mensaje.show" ng-click="hideMensaje()" class="padding bar bar-assertive" style="bottom:0; position: absolute; z-index: 5; height: auto">
+  <div class="col-10" style="font-size: 20px; display: flex; align-items: center">
+    <i class="icon ion-android-alert"></i>    
+  </div>
+  <div class="col-90" style="font-size: 16px;">
+    {{mensaje.texto}}
+  </div>
+</div>
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true" data-tap-disabled="true">
+  <!-- Background of PhotoSwipe. 
+       It's a separate element, as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg"></div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
+    <!-- don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter"></div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--share" title="Share"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip"></div> 
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<ion-view view-title="Notas del soporte">
+  <ion-content class="padding">
+    <ion-list ng-repeat="nota in soporteNotas | orderBy:'-idNota'">
+      <div class="card"  style="margin: 0px 0px 10px 0px;">
+        <div class="item item-divider" style="padding: 4px 10px;">
+          <p style="font-size: 12px; float: left;">{{nota.nombreUsuarioCreador}}</p>
+          <p style="font-size: 12px; float: right;">{{formatearFechaHora(nota.ts)}}</p>
+        </div>
+        <div class="item item-text-wrap" style="padding: 6px 10px; font-size: 14px;">{{nota.texto}}</div>
+      </div>
+    </ion-list>
+  </ion-content>
+  <mfb-menu position="br" effect="slidein-spring" 
+            active-icon="ion-plus-round" resting-icon="ion-plus-round" 
+            main-action="showModalNotaSoporte()" class="mfb-no-transition"></mfb-menu>
+</ion-view>

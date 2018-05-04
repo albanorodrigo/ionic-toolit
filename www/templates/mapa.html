@@ -1,0 +1,28 @@
+<ion-view view-title="Mapa">
+  <ion-content scroll="false" overflow-scroll="false" data-tap-disabled="true">
+    <ui-gmap-google-map center="map.center" 
+                        zoom="map.zoom" 
+                        options="map.options" 
+                        bounds="map.bounds">
+      <ui-gmap-markers models="marcadores" 
+                       coords="'self'" 
+                       options="'options'"></ui-gmap-markers>
+    </ui-gmap-google-map>
+  </ion-content>
+  <ion-footer-bar class="bar-dark">
+    <div class="buttons buttons-left">
+      <button ng-click="geolocalizar()" class="button button-positive">
+        <i ng-if="!geolocalizando()" class="ion-navigate" style="width: 28px; height: 28px; display: block;"></i>
+        <ion-spinner ng-if="geolocalizando()" class="spinner-light" icon="ios-small" style="width: 28px; height: 28px; display: block;"></ion-spinner>
+      </button>
+    </div>
+    <h1 class="title"></h1>
+    <div class="buttons buttons-right">
+      <div class="button-bar button-bar-inline">
+        <button ng-click="calcularRutaCaminando()" ng-class="{'active':rutaCaminandoActiva()}" class="button button-positive"><i class="ion-android-walk"></i></button>
+        <button ng-click="calcularRutaAuto()" ng-class="{'active':rutaAutoActiva()}" class="button button-positive"><i class="ion-android-car"></i></button>
+        <button ng-click="calcularRutaBus()" ng-class="{'active':rutaBusActiva()}" class="button button-positive"><i class="ion-android-bus"></i></button>
+      </div>
+    </div>
+  </ion-footer-bar>
+</ion-view>

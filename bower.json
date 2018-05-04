@@ -1,7 +1,22 @@
 {
-  "name": "HelloIonic",
+  "name": "tecytal-app",
   "private": "true",
   "devDependencies": {
     "ionic": "ionic-team/ionic-bower#1.3.4"
+  }
+  ,
+  "dependencies": {
+    "ngCordova": "^0.1.27-alpha",
+    "angular-mocks": "^1.5.0",
+    "angular-resource": "^1.5.0",
+    "moment": "^2.12.0",
+    "angular-google-maps": "^2.3.2",
+    "signature_pad": "^1.5.3",
+    "ng-material-floating-button": "ng-mfb#^0.6.2",
+    "angular-chart.js": "^0.10.2",
+    "photoswipe": "^4.1.1",
+    "ng-letter-avatar": "ngletteravatar#^4.0.4",
+    "angular-img-http-src": "^1.0.1",
+    "angular-click-outside": "^2.10.2"
   }
 }

@@ -1,0 +1,19 @@
+<ion-view view-title="Ingresar">
+  <ion-nav-bar class="bar-positive" on-hold="showModalDebug()"></ion-nav-bar>
+  <ion-content overflow-scroll="false" scroll="true" data-tap-disabled="false" class="padding">
+    <form ng-submit="login()">
+      <div class="list list-inset">
+        <label class="item item-input">
+          <input type="text" placeholder="Username" ng-model="data.username" autocorrect="off" autocapitalize="off">
+        </label>
+        <label class="item item-input">
+          <input type="password" placeholder="Password" ng-model="data.password">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Telefono" ng-model="data.devicePhoneNumber">
+        </label>
+      </div>
+      <button class="button button-block button-positive" type="submit">Ingresar</button>
+    </form>
+  </ion-content>
+</ion-view>

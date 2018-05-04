@@ -1,0 +1,11 @@
+<ion-view view-title="Fotos del soporte">
+  <ion-content style="padding: 4px 0px;">
+    <div class="pswp-gallery soporte-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+      <figure ng-repeat="f in soporteFotos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+        <a image-src="{{URLS.defaultUrl}}/files/{{f.idCliente}}/{{f.filename}}/{{f.millis}}" itemprop="contentUrl">
+          <img http-src="{{URLS.defaultUrl}}/files/{{f.idCliente}}/{{f.filename}}/{{f.millis}}/{{thumbnailSize}}" width="{{thumbnailSize}}" height="{{thumbnailSize}}" itemprop="thumbnail" alt="" />
+        </a>
+      </figure>
+    </div>
+  </ion-content>
+</ion-view>

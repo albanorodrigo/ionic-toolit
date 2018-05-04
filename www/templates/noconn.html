@@ -1,0 +1,16 @@
+<ion-view view-title="Problemas de conexión">
+  <ion-nav-bar class="bar-positive" on-hold="showModalDebug()"></ion-nav-bar>
+  <ion-content overflow-scroll="false" scroll="false" data-tap-disabled="false" class="padding">
+
+    <h1>Imposible cargar correctamente los datos</h1> 
+    <h3>No hay conexión a o la calidad de la misma es insuficiente.</h3>
+    <p>Para poder operar correctamente la aplicación precisa una conexión de datos móviles o 
+      Wi‑Fi estable.</p>
+    <p>Verifique su conexión y haga click en el botón de abajo.</p>
+
+    <form ng-submit="conectar()">
+      <button ng-if="reintentar" class="button button-block button-positive" type="submit">Reintentar en {{cnt}}</button>
+    </form>
+    <button ng-if="!reintentar" class="button button-block button-positive" type="submit">Intentando conectarse...</button>
+  </ion-content>
+</ion-view>

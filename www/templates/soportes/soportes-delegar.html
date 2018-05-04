@@ -1,0 +1,21 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive" align-title="left">
+    <h1 class="title"><i class="icon ion-shuffle"></i>&nbsp;&nbsp;Delegar soporte</h1>
+    <button ng-click="hideModalDelegarSoporte()" class="button button-icon ion-android-close"></button>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <ion-radio name="radioEstadoUsuario" 
+                 ng-repeat="tecnico in listaTecnicos | orderBy:'name' | filter:filterTecnicosByDelegarSoporte" 
+                 ng-click="delegarSoporte()" 
+                 ng-model="delegarSoporteData.idUsuario" 
+                 ng-if="tecnico.activo" 
+                 value="{{tecnico.idUsuario}}">{{tecnico.name}}</ion-radio>
+    </ion-list>
+  </ion-content>
+  <ion-footer-bar style="padding: 0px;" ng-if="false">
+    <div class="button-bar">
+      <button ng-click="delegarSoporte()" class="button border-radius-none button-balanced"><i class="ion-checkmark"></i>&nbsp;&nbsp;Listo</button>
+    </div>
+  </ion-footer-bar>
+</ion-modal-view>

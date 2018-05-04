@@ -1,0 +1,121 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive">
+    <h1 class="title"><i class="icon ion-locked"></i>&nbsp;&nbsp;Cerrar soporte</h1>
+    <button ng-click="hideModalCerrarSoporte()" class="button button-icon ion-android-close"></button>
+    <div ng-if="false" class="buttons">
+      <button ng-click="hideModalCerrarSoporte()" class="button button-clear">Cancelar</button>
+    </div>
+  </ion-header-bar>
+  <form name="formCS" novalidate>
+    <ion-content>
+      <div class="list item-text-wrap">
+        <div class="item">
+          <span>Estado de cierre *</span>
+          <div class="item item-select" 
+               ng-class="(formCS.$submitted && formCS['idEstadoCierreSoporte'].$invalid) ? 'assertive-border' : 'stable-border'" 
+               style="border-style: solid; border-width: 1px; margin-top: 5px;">
+            <select name="idEstadoCierreSoporte" required 
+                    ng-model="soporteEstadoCierreSelect.value" 
+                    ng-options="estado.idEstadoSoporte as estado.estado for estado in listaSoporteEstados | filter:{tipo:'C', activo:true}" 
+                    style="width: 100%; max-width: none; left: 0px; direction: ltr; padding-left: 7px; color: #333;">
+              <option value="">- Seleccionar -</option>
+            </select>
+          </div>
+        </div>
+        <div class="item" ng-if="checkDocumentoCierreObligatorio()">
+          <span>Nombre y apellido</span>
+          <span class="item item-input" 
+                ng-class="(formCS.$submitted && formCS['nombreApellido'].$invalid) ? 'assertive-border' : 'stable-border'" 
+                style="border-style: solid; border-width: 1px; margin-top: 5px; padding: 0px 10px;">
+            <input name="nombreApellido" 
+                   ng-model="formularioCierreData.camposEstaticos['nombreApellido']" 
+                   ng-required="{{checkDocumentoCierreObligatorio()}}" type="text" style="width: 100%; color: #333;" />
+          </span>
+        </div>
+        <div class="item" ng-if="checkDocumentoCierreObligatorio()">
+          <span>Documento</span>
+          <span class="item item-input" 
+                ng-class="(formCS.$submitted && formCS['documento'].$invalid) ? 'assertive-border' : 'stable-border'" 
+                style="border-style: solid; border-width: 1px; margin-top: 5px; padding: 0px 10px;">
+            <input name="documento" 
+                   ng-model="formularioCierreData.camposEstaticos['documento']" 
+                   ng-required="{{checkDocumentoCierreObligatorio()}}" type="number" style="width: 100%; color: #333;" />
+          </span>
+        </div>
+        <div class="item item-complex">
+          <div ng-repeat="campo in formularioCierre.detalle | orderBy:'orden'">
+            <div class="item" ng-if="campo.tipo === 'text'">
+              <span>{{campo.label}} {{campo.obligatorio?'*':''}}</span>
+              <span class="item item-input" 
+                    ng-class="(formCS.$submitted && formCS['dyna' + campo.nombre].$invalid) ? 'assertive-border' : 'stable-border'" 
+                    style="border-style: solid; border-width: 1px; margin-top: 5px; padding: 0px 10px;">
+                <input name="dyna{{campo.nombre}}" 
+                       ng-model="formularioCierreData.camposDinamicos[campo.nombre]" 
+                       ng-required="campo.obligatorio"
+                       value="{{campo.valor}}" 
+                       type="text" style="width: 100%; color: #333;" />
+              </span>
+            </div>
+            <div class="item" ng-if="campo.tipo === 'combo'">
+              <span>{{campo.label}} {{campo.obligatorio?'*':''}}</span>
+              <div class="item item-select" 
+                   ng-class="(formCS.$submitted && formCS['dyna' + campo.nombre].$invalid) ? 'assertive-border' : 'stable-border'" 
+                   style="border-style: solid; border-width: 1px; margin-top: 5px;">
+                <select name="dyna{{campo.nombre}}" 
+                        ng-model="formularioCierreData.camposDinamicos[campo.nombre]" 
+                        ng-required="campo.obligatorio"
+                        value="{{campo.valor}}" 
+                        style="width: 100%; max-width: none; left: 0px; direction: ltr; padding-left: 7px; color: #333;">
+                  <option value="">- Seleccionar -</option>
+                  <option ng-repeat="valor in campo.data| split:','" value="{{valor}}">{{valor}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="item" ng-if="campo.tipo === 'boolean'">
+              <span>{{campo.label}} {{campo.obligatorio?'*':''}}</span>
+              <div class="item item-select" 
+                   ng-class="(formCS.$submitted && formCS['dyna' + campo.nombre].$invalid) ? 'assertive-border' : 'stable-border'" 
+                   style="border-style: solid; border-width: 1px; margin-top: 5px;">
+                <select name="dyna{{campo.nombre}}" 
+                        ng-model="formularioCierreData.camposDinamicos[campo.nombre]" 
+                        ng-required="campo.obligatorio"
+                        value="{{campo.valor}}" 
+                        style="width: 100%; max-width: none; left: 0px; direction: ltr; padding-left: 7px; color: #333;">
+                  <option value="">- Seleccionar -</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
+            </div>
+            <div class="item" ng-if="campo.tipo === 'integer'">
+              <span>{{campo.label}} {{campo.obligatorio?'*':''}}</span>
+              <span class="item item-input" 
+                    ng-class="(formCS.$submitted && formCS['dyna' + campo.nombre].$invalid) ? 'assertive-border' : 'stable-border'" 
+                    style="border-style: solid; border-width: 1px; margin-top: 5px; padding: 0px 10px;">
+                <input name="dyna{{campo.nombre}}" 
+                       ng-model="formularioCierreData.camposDinamicos[campo.nombre]" 
+                       ng-required="campo.obligatorio"
+                       value="{{campo.valor}}" 
+                       type="number" style="width: 100%; color: #333;" />
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <span>Firma</span>
+          <canvas id="signature-canvas" scroll="false" data-tap-disabled="true" 
+                  style="border: 1px solid #a9a9a9; display: block; width: 100%; min-height: 200px; margin-top: 5px;"></canvas>
+          <div class="button-bar" style="margin-top: 10px;">
+            <a class="button button-small button-energized" ng-click="limpiarSignaturePad()">Limpiar firma</a>
+            <a ng-if="false" class="button button-small button-balanced" ng-click="guardarSignaturePad()">Guardar</a>
+          </div>
+        </div>
+      </div>     
+    </ion-content>
+    <ion-footer-bar style="padding: 0px;">
+      <div class="button-bar">
+        <button ng-click="formCS.$valid ? cerrarSoporte(soporte) : showAlert('Error de validacion', 'Por favor, complete los campos del formulario.')" ng-disabled="" type="submit" class="button border-radius-none button-assertive"><i class="ion-locked"></i>&nbsp;&nbsp;CERRAR SOPORTE</button>
+      </div>
+    </ion-footer-bar>
+  </form>
+</ion-modal-view>

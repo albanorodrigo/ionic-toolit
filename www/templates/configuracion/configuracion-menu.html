@@ -1,0 +1,12 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive" align-title="left">
+    <h1 class="title"><i class="icon ion-arrow-swap"></i>&nbsp;&nbsp;Posicion del menu</h1>
+    <button ng-click="hideModalMenu()" class="button button-icon ion-android-close"></button>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <ion-radio name="radioMenuPrincipalPosicion" ng-click="guardarMenuPrincipalPosicion()" ng-model="config.menuPrincipalPosicion" value="left">Izquierda</ion-radio>
+      <ion-radio name="radioMenuPrincipalPosicion" ng-click="guardarMenuPrincipalPosicion()" ng-model="config.menuPrincipalPosicion" value="right">Derecha</ion-radio>
+    </ion-list>
+  </ion-content>
+</ion-modal-view>

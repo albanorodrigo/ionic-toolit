@@ -1,0 +1,24 @@
+<ion-view view-title="Detalles del abonado">
+  <ion-pane>
+    <ion-tabs class="tabs-positive tabs-icon-top">
+      <!-- Datos Tab -->
+      <ion-tab title="Datos" icon="ion-filing">
+        <ion-view>
+          <div ng-include src="'templates/abonados/abonados-detalle.html'"></div>
+        </ion-view>
+      </ion-tab>
+      <!-- Servicios Tab -->
+      <ion-tab title="Servicios" icon="ion-ios-gear">
+        <ion-view>
+          <div ng-include src="'templates/abonados/abonados-servicios.html'"></div>
+        </ion-view>
+      </ion-tab>
+      <!-- Equipos Tab -->
+      <ion-tab title="Equipos" icon="ion-cube">
+        <ion-view>
+          <div ng-include src="'templates/abonados/abonados-equipos.html'"></div>
+        </ion-view>
+      </ion-tab>
+    </ion-tabs>
+  </ion-pane>
+</ion-view>

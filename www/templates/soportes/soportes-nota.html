@@ -1,0 +1,19 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive" align-title="left">
+    <h1 class="title"><i class="icon ion-edit"></i>&nbsp;&nbsp;Añadir nota</h1>
+    <div class="buttons buttons-right">
+      <button ng-click="hideModalNotaSoporte()" class="button button-icon ion-android-close"></button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <label class="item item-input" style="margin:0px;">
+      <textarea rows="10" ng-model="soporteNotaTextarea.value" placeholder="Ingrese aqui su nota..." rows="5"></textarea>
+    </label>
+    <button style="margin-top: 0px;" class="button button-small button-full icon ion-trash-a button-energized" ng-click="limpiarCampoNota()">&nbsp;&nbsp;Limpiar nota</button>
+  </ion-content>
+  <ion-footer-bar style="padding: 0px;">
+    <div class="button-bar">
+      <button ng-click="agregarNota()" class="button border-radius-none button-balanced"><i class="ion-checkmark"></i>&nbsp;&nbsp;Guardar</button>
+    </div>
+  </ion-footer-bar>
+</ion-modal-view>

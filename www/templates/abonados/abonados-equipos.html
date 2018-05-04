@@ -1,0 +1,11 @@
+<ion-content>
+  <ion-item ng-if="(lugar)" class="item-stable"><i class="icon ion-location dark"></i> {{lugar.nombre}}</ion-item>
+  <ion-list ng-if="(equipos.length > 0)">
+    <ion-item collection-repeat="equipo in equipos" item-render-buffer="10">
+      <h2 style="padding-bottom: 5px;">{{equipo.nombreProducto}}</h2>
+      <p ng-if="!(lugar)"><i class="ion-location dark"></i> {{equipo.nombreLugar}}</p>
+      <p><i class="ion-ios-barcode-outline dark"></i> {{equipo.serial}}</p>
+    </ion-item>
+  </ion-list>
+  <div ng-if="!(equipos.length > 0)" class="padding" style="font-style: italic; color: #666">El abonado no tiene equipos {{(lugar)? 'en el lugar':''}}</div>
+</ion-content>

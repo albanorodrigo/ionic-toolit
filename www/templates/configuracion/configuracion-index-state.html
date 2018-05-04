@@ -1,0 +1,11 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive" align-title="left">
+    <h1 class="title"><i class="icon ion-home"></i>&nbsp;&nbsp;Pagina de inicio</h1>
+    <button ng-click="hideModalAppIndexState()" class="button button-icon ion-android-close"></button>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <ion-radio name="radioAppIndexState" ng-repeat="state in listaAppIndexStates" ng-click="guardarAppIndexState()" ng-model="config.appIndexState" ng-value="state.state">{{state.detalle}}</ion-radio>
+    </ion-list>
+  </ion-content>
+</ion-modal-view>

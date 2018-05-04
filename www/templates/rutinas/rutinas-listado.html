@@ -1,0 +1,51 @@
+<ion-view view-title="Rutinas">
+  <ion-nav-buttons side="right">
+    <button ng-if="adminSoportesActive" ng-click="filtrosSoportesCtrl.showModal()" class="button button-icon icon-medium ion-android-options">
+      <span ng-if="filtrosSoportesCtrl.countFiltrosAplicados()" 
+            style="line-height: 16px; font-size: 12px; padding: 0px 0px; width: 16px; top: -15px; right: -10px;" 
+            class="badge badge-assertive">{{filtrosSoportesCtrl.countFiltrosAplicados()}}</span>
+    </button>
+  </ion-nav-buttons>
+  <ion-content>
+    <ion-refresher pulling-icon="ion-ios-arrow-down" 
+                   pulling-text="Tire para actualizar..." 
+                   spinner="ios" 
+                   on-refresh="pullToRefresh()">
+    </ion-refresher>
+    <ion-list>
+      <div collection-repeat="ejecucion in listaEjecuciones" 
+                item-render-buffer="10" 
+                class="custom-item-lista">
+        <div class="item item-divider" ng-click="toggleOpen(ejecucion.idRutinaEjecucion)">
+          <div>
+            <b>{{ejecucion.nombreRutina}}</b>
+            <p>{{ejecucion.fechaProgramada}} | {{ejecucion.tsInicio}}</p>
+          </div>
+          <div class="progress-circle-container">
+            <div class="progress-circle p{{ejecucion.porcentajeCompletado}}" ng-class="(ejecucion.porcentajeCompletado > 50) ? 'over50' : ''">
+              <span style="font-size: 15px">{{ejecucion.porcentajeCompletado}}%</span>
+              <div class="left-half-clipper">
+                <div class="first50-bar"></div>
+                <div class="value-bar"></div>
+              </div>
+            </div>
+          </div>        
+        </div>
+        <div id="div-{{ejecucion.idRutinaEjecucion}}" ng-show="divEjecuciones['div-'+ejecucion.idRutinaEjecucion]">
+          <a ng-repeat="soporte in ejecucion.soportes" class="item item-icon-right item-rutina" href="#/soporte/{{soporte.idSoporte}}/detalle" >
+            <h2 ng-if="checkShowSoporteCampo('lugar.nombre')">
+              <span class="codigo" style="color: #55F;">{{soporte.codigoSoporte}}</span> {{soporte.lugar.nombre}}
+            </h2>
+            <p ng-if="checkShowSoporteCampo('lugar.direccion')">{{soporte.lugar.direccion}}</p>
+            <p ng-if="adminSoportesActive" style="margin-bottom: 0px;">{{(soporte.idUsuarioAsignado) ? soporte.nombreUsuarioAsignado : 'Sin asignar...'}}</p>
+            <span ng-style="(estadosSoporteCtrl.getColorEstadoSoporte(soporte.idEstadoSoporte)) && {'background-color':estadosSoporteCtrl.getColorEstadoSoporte(soporte.idEstadoSoporte)}" 
+                  ng-class="(estadosSoporteCtrl.getColorEstadoSoporte(soporte.idEstadoSoporte)) ? 'custom-color' : ''" 
+                  class="badge">{{soporte.estadoSoporte}}</span>
+            <i ng-if="(soporte.notificacionesPendientes)" class="notification-icon ion-android-alert assertive"></i>
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </a>
+        </div>
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-view>

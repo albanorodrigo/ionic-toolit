@@ -1,0 +1,30 @@
+<ion-view view-title="Detalles del mensaje">
+  <ion-nav-buttons side="right">
+    <button ng-click="eliminarMensaje(mensaje)" class="button button-icon icon-medium ion-trash-b"></button>
+  </ion-nav-buttons>
+  <ion-content>
+    <ion-refresher pulling-icon="ion-ios-arrow-down" 
+                   pulling-text="Tire para actualizar..." 
+                   spinner="ios" 
+                   on-refresh="pullToRefresh()" ng-if="false">
+    </ion-refresher>
+    <div class="card" style="margin: 8px;">
+      <div class="item item-stable item-text-wrap">
+        <div style="position: absolute; right: 0px; bottom: 4px;">
+          <button ng-click="marcarFavoritoTest(mensaje)" class="button button-clear icon {{getClassMensajeFavoritoIcon(mensaje)}}"></button>
+        </div>
+        <h2 class="text-wrap bold">{{mensaje.titulo}}</h2>
+        <div style="position: relative; margin: 8px 0px;">
+          <div style="position: absolute; left: -3px; top: 50%; margin-top: -12px;">
+            <ng-letter-avatar data="{{mensaje.nombreUsuarioRemitente}}" shape="round" charCount="2" dynamic="true" fontSize="12" width="24" height="24" avatarcustombgcolor="#F18636"></ng-letter-avatar>
+          </div>
+          <div style="padding-left: 28px; font-size: 14px;">{{(mensaje.nombreUsuarioRemitente) ? mensaje.nombreUsuarioRemitente : '&nbsp;'}}</div>
+        </div>
+        <p><i class="ion-android-calendar"></i>&nbsp;&nbsp;{{(mensaje.tsCreada) ? (mensaje.tsCreada | tsFormatDateTime) : '&nbsp;'}}</p>
+      </div>
+      <div class="item item-text-wrap">
+        {{(mensaje.texto)? mensaje.texto : '&nbsp;'}}
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

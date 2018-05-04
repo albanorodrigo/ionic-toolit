@@ -1,0 +1,21 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive" align-title="left">
+    <h1 class="title"><i class="icon ion-ios-pulse-strong"></i>&nbsp;&nbsp;Cambiar de estado</h1>
+    <button ng-click="hideModalEstadoSoporte()" class="button button-icon ion-android-close"></button>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <ion-radio name="radioEstadoSoporte" 
+                 ng-repeat="estado in listaSoporteEstados | filter:{tipo:(soporte.tipoEstadoSoporte != 'C')? '!C': 'C'}" 
+                 ng-click="cambiarEstadoSoporte(soporte)" 
+                 ng-model="soporteEstadoSelect.value" 
+                 ng-if="estado.activo" 
+                 ng-value="{{estado.idEstadoSoporte}}">{{estado.estado}}</ion-radio>
+    </ion-list>
+  </ion-content>
+  <ion-footer-bar style="padding: 0px;" ng-if="false">
+    <div class="button-bar">
+      <button ng-click="cambiarEstadoSoporte(soporte)" class="button border-radius-none button-balanced"><i class="ion-checkmark"></i>&nbsp;&nbsp;Listo</button>
+    </div>
+  </ion-footer-bar>
+</ion-modal-view>

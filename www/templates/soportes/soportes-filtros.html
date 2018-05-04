@@ -1,0 +1,103 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive" align-title="left">
+    <h1 class="title"><i class="ion-android-options"></i>&nbsp;&nbsp;Filtrar soportes</h1>
+    <button ng-click="hideModal()" class="button button-icon ion-android-close"></button>
+  </ion-header-bar>
+  <ion-content>
+    <div class="list item-text-wrap">
+      <!-- ANTIGUEDAD O FECHAS -->
+      <div ng-if="true" class="item item-radio" style="overflow: hidden; padding: 16px;">
+        <ion-radio ng-repeat="item in filtroFechaRadios"
+                   ng-value="item.value"
+                   ng-checked="item.selected"
+                   ng-model="filtros.filtrarPor">
+              {{ item.text }}
+        </ion-radio>        
+      </div>
+      <!-- FILTRO POR ANTIGUEDAD -->
+      <div ng-if="filtros.filtrarPor==='A'" class="item" style="overflow: hidden; padding: 16px;">
+        <!--ng-options="item.text for item in filtroAntiguedades track by item.value"-->
+        <div class="item item-select stable-border" 
+             style="border-style: solid; border-width: 1px; margin-top: 5px;">
+          <select name="filtroSoporteAntiguedad" 
+                  ng-model="filtros.antiguedad" 
+                  ng-options="item.value as item.text for item in filtroAntiguedades"
+                  style="width: 100%; max-width: none; left: 0px; direction: ltr; padding-left: 7px; color: #333;">
+          </select>
+        </div>
+      </div>
+      <!-- FILTRO POR FECHAS -->
+      <div ng-if="filtros.filtrarPor==='F'" class="item item-complex" style="overflow: hidden; padding: 16px;">
+        <div style="float: left; width: 45%">
+          <span>Fecha desde</span>
+          <div class="item item-input stable-border" 
+               style="border-style: solid; border-width: 1px; margin-top: 5px; padding: 0px 0px 0px 10px;">
+            <input name="filtroSoporteFechaDesde" type="date" ng-model="filtros.fechaDesde" 
+                   style="margin: 0px; padding: 0px; line-height: 34px;" />
+          </div>
+        </div>
+        <div style="float: right; width: 45%">
+          <span>Fecha hasta</span>
+          <div class="item item-input stable-border" 
+               style="border-style: solid; border-width: 1px; margin-top: 5px; padding: 0px 0px 0px 10px;">
+            <input name="filtroSoporteFechaHasta" type="date" ng-model="filtros.fechaHasta" 
+                   style="margin: 0px; padding: 0px; line-height: 34px;" />
+          </div>
+        </div>
+      </div>
+      <!-- FILTRO ESTADO -->
+      <div class="item">
+        <span>Estado</span>
+        <div class="item item-select stable-border" 
+             style="border-style: solid; border-width: 1px; margin-top: 5px;">
+          <select name="filtroSoporteEstado" 
+                  ng-model="filtros.idEstadoSoporte" 
+                  ng-options="e.idEstadoSoporte as e.estado for e in listaSoporteEstados" 
+                  style="width: 100%; max-width: none; left: 0px; direction: ltr; padding-left: 7px; color: #333;">
+            <option value="">- Todos -</option>
+          </select>
+        </div>
+      </div>
+      <div class="item">
+        <span>Tecnico</span>
+        <div class="item item-select stable-border" 
+             style="border-style: solid; border-width: 1px; margin-top: 5px;">
+          <select name="filtroSoporteTecnico" 
+                  ng-model="filtros.idUsuarioAsignado" 
+                  ng-options="t.idUsuario as t.name for t in listaTecnicosFiltros" 
+                  style="width: 100%; max-width: none; left: 0px; direction: ltr; padding-left: 7px; color: #333;">
+          </select>
+        </div>
+      </div>
+      <!-- FILTRO PRIORIDAD - @TODO: implementar
+      <div class="item" ng-if="checkShowSoportePrioridad()">
+        <span>Prioridad</span>
+        <div class="item item-select stable-border" 
+             style="border-style: solid; border-width: 1px; margin-top: 5px;">
+          <select name="filtroSoportePrioridad" convert-to-number 
+                  ng-model="filtros.idPrioridad" 
+                  ng-options="p.idPrioridad as p.nombre for p in listaPrioridades" 
+                  style="width: 100%; max-width: none; left: 0px; direction: ltr; padding-left: 7px; color: #333;">
+            <option value="">- Todas -</option>
+          </select>
+        </div>
+      </div>
+      -->
+          <ion-checkbox ng-model="filtros.guardarPorDefecto">Guardar como visualización por defecto</ion-checkbox>
+<!--      
+      <div class="item">
+        <div class="item item-select stable-border" style="border-style: solid; border-width: 1px; margin-top: 5px;">
+        </div>
+      </div>
+-->
+    </div>
+    <div class="padding" style="padding-top: 0px;">
+      <button ng-click="limpiarFiltros()" class="button button-small button-outline ion-trash-a icon-left no-float-icon button-block button-assertive">Limpiar filtros</button>
+    </div>
+  </ion-content>
+  <ion-footer-bar style="padding: 0px;">
+    <div class="button-bar">
+      <button ng-click="aplicarFiltros()" class="button border-radius-none button-balanced"><i class="ion-checkmark"></i>&nbsp;&nbsp;Aplicar filtros</button>
+    </div>
+  </ion-footer-bar>
+</ion-modal-view>

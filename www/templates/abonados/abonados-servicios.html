@@ -1,0 +1,14 @@
+<ion-content>
+  <ion-list ng-if="(servicios.length > 0)">
+    <ion-item collection-repeat="servicio in servicios | orderBy:'-millis'" item-render-buffer="10">
+      <h2 style="padding-bottom: 5px;">{{servicio.servicio.nombre}}</h2>
+      <p>
+        <i class="ion-calendar dark"></i> 
+        <span ng-class="(servicio.fechas.fechaInicio) ? '' : 'empty-text'">{{(servicio.fechas.fechaInicio) ? (servicio.fechas.fechaInicio | tsFormatDateTime) : 'sin iniciar'}}</span>
+        <span> - </span>
+        <span ng-class="(servicio.fechas.fechaFin) ? '' : 'empty-text'">{{(servicio.fechas.fechaFin) ? (servicio.fechas.fechaFin | tsFormatDateTime) : 'sin finalizar'}}</span>
+      </p>
+    </ion-item>
+  </ion-list>
+  <div ng-if="!(servicios.length > 0)" class="padding" style="font-style: italic; color: #666">El abonado no tiene servicios</div>
+</ion-content>

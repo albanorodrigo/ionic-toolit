@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "637476182190",
+    "firebase_url": "https://tecytal-clientes-app-cbf05.firebaseio.com",
+    "project_id": "tecytal-clientes-app-cbf05",
+    "storage_bucket": "tecytal-clientes-app-cbf05.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637476182190:android:f7243ef9787ec3d9",
+        "android_client_info": {
+          "package_name": "com.tecytal.clientesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637476182190-rrk8qtkv4cjedqptcq7970df5ffkt90u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJcHIh1OHpUmipX7jsNQSYyoqR3DVSlNc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

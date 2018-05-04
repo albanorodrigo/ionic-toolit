@@ -1,0 +1,32 @@
+<ion-view view-title="Configuracion">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item item-icon-right" ng-click="showModalAppIndexState()">
+        Pagina de inicio <span style="float: right; color: #888;" >{{getAppIndexStateDetalle(config.appIndexState)}}</span>
+        <i class="icon ion-chevron-down icon-accessory"></i>
+      </ion-item>
+      <ion-item ng-if="false" class="item item-icon-right" ng-click="showModalMenu()">
+        Posicion del menu 
+        <span style="float: right; color: #888;" ng-bind="{'left':'Izquierda', 'right': 'Derecha'}[config.menuPrincipalPosicion]"></span>
+        <i class="icon ion-chevron-down icon-accessory"></i>
+      </ion-item>
+      <ion-toggle ng-model="config.geoTrackingEnabled" ng-click="geoTrackingToggle()" toggle-class="toggle-positive">Geolocalizacion</ion-toggle>
+      <ion-toggle ng-model="config.pushNotificationsEnabled" ng-click="pushNotificationsToggle()" toggle-class="toggle-positive">Notificaciones push</ion-toggle>
+      <ion-toggle ng-model="config.talkEnabled" ng-click="talkToggle()" toggle-class="toggle-positive">Notificaciones con voz</ion-toggle>
+      <ion-toggle ng-if="APP_CONFIG.devMode" ng-model="config.modalidadDesarrollador" toggle-class="toggle-positive">Modalidad desarrollador</ion-toggle>
+      <input ng-if="APP_CONFIG.cambiarApi && config.modalidadDesarrollador" class="item-input" style="width: 100%" ng-model="config.codigoDesarrollador" />
+      <label ng-if="config.codigoDesarrollador==='1995'" class="item">
+        
+        <div class="input-label">Server API URL</div>
+        <input class="item-input" ng-change="guardarApiBaseUrl()" style="width: 100%" ng-model="config.apiBaseUrl" />
+      </label>
+      <ion-item style="padding:0px;">
+        <button style="margin:0px;" class="button button-full button-assertive" ng-click="resetConfiguracion()"><i class="ion-refresh"></i>&nbsp;&nbsp;Restablecer configuracion</button>
+      </ion-item>
+    </ion-list>
+
+    <button ng-if="APP_CONFIG.devMode" class="button button-full button-energized" ng-click="mostrarNotificacion()">Mostrar notificacion</button>
+    <button ng-if="APP_CONFIG.devMode" class="button button-block button-positive" ng-click="vibrate()">Vibrate me!</button>
+    <button ng-if="APP_CONFIG.devMode" class="button button-block button-positive" ng-click="testShareSheet()">Action sheet native</button>
+  </ion-content>
+</ion-view>

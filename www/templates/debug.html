@@ -1,0 +1,15 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive">
+    <h1 class="title"><i class="icon ion-bug"></i>&nbsp;&nbsp;Debug tools</h1>
+    <button ng-click="hideModalDebug()" class="button button-icon ion-android-close"></button>
+  </ion-header-bar>
+  <ion-content class="padding">
+    <div ng-bind-html="debugHtml"></div>
+  </ion-content>
+  <ion-footer-bar style="padding: 0px;">
+    <div class="button-bar">
+      <button ng-click="generarEmulatedUUID()" class="button border-radius-none button-balanced"><i class="ion-pound"></i>&nbsp;&nbsp;Generar UUID</button>
+      <button ng-click="clearLocalStorage()" class="button border-radius-none button-assertive"><i class="ion-trash-a"></i>&nbsp;&nbsp;Limpiar datos</button>
+    </div>
+  </ion-footer-bar>
+</ion-modal-view>

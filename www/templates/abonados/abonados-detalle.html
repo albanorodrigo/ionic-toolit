@@ -1,0 +1,34 @@
+<ion-content>
+  <div class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px; font-size: 14px;">
+    <i class="icon ion-person icon-medium dark"></i>
+    <span ng-class="(abonado.nombre) ? '' : 'empty-text'">{{(abonado.nombre) ? abonado.nombre : 'Nombre'}}</span>
+  </div>
+  <div ng-if="checkShowSoporteCampo('abonado.telefono')" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px; font-size: 14px;">
+    <i class="icon ion-ios-telephone icon-medium dark"></i>
+    <span ng-class="(abonado.telefono) ? '' : 'empty-text'">{{(abonado.telefono) ? abonado.telefono : 'Telefono 1'}}</span>
+  </div>
+  <div ng-if="checkShowSoporteCampo('abonado.telefono2')" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px; font-size: 14px;">
+    <i class="icon ion-ios-telephone icon-medium dark"></i>
+    <span ng-class="(abonado.telefono2) ? '' : 'empty-text'">{{(abonado.telefono2) ? abonado.telefono2 : 'Telefono 2'}}</span>
+  </div>
+  <div ng-if="checkShowSoporteCampo('abonado.localidad')" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px; font-size: 14px;">
+    <i class="icon ion-pinpoint icon-medium dark"></i>
+    <span ng-class="(abonado.localidad) ? '' : 'empty-text'">{{(abonado.localidad) ? abonado.localidad : 'Localidad'}}</span>
+  </div>
+  <div ng-if="checkShowSoporteCampo('abonado.direccion')" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px; font-size: 14px;">
+    <i class="icon ion-location icon-medium dark"></i>
+    <span ng-class="(abonado.direccion) ? '' : 'empty-text'">{{(abonado.direccion) ? abonado.direccion : 'Direccion 1'}}</span>
+  </div>
+  <div ng-if="checkShowSoporteCampo('abonado.direccion2')" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px; font-size: 14px;">
+    <i class="icon ion-location icon-medium dark"></i>
+    <span ng-class="(abonado.direccion2) ? '' : 'empty-text'">{{(abonado.direccion2) ? abonado.direccion2 : 'Direccion 2'}}</span>
+  </div>
+  <div ng-if="checkShowSoporteCampo('abonado.email')" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px; font-size: 14px;">
+    <i class="icon ion-at icon-medium dark"></i>
+    <span ng-class="(abonado.email) ? '' : 'empty-text'">{{(abonado.email) ? abonado.email : 'E-mail'}}</span>
+  </div>
+  <div ng-if="checkShowSoporteCampo('abonado.observaciones')" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px; font-size: 14px;">
+    <i class="icon ion-clipboard icon-medium dark"></i>
+    <span ng-class="(abonado.observaciones) ? '' : 'empty-text'">{{(abonado.observaciones) ? abonado.observaciones : 'Observaciones'}}</span>
+  </div>
+</ion-content>

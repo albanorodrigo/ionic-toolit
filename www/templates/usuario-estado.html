@@ -1,0 +1,20 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive" align-title="left">
+    <h1 class="title"><i class="icon ion-android-time"></i>&nbsp;&nbsp;Cambiar mi estado</h1>
+    <button ng-click="hideModalEstadoUsuario()" class="button button-icon ion-android-close"></button>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <ion-radio name="radioEstadoUsuario" 
+                 ng-repeat="estado in listaUsuarioEstados | orderBy:'idEstadoUsuario'" 
+                 ng-click="cambiarEstadoUsuario()" 
+                 ng-model="usuarioEstadoSelect.value" 
+                 value="{{estado.idEstadoUsuario}}">{{estado.estado}}</ion-radio>
+    </ion-list>
+  </ion-content>
+  <ion-footer-bar style="padding: 0px;" ng-if="false">
+    <div class="button-bar">
+      <button ng-click="cambiarEstadoUsuario()" class="button border-radius-none button-balanced"><i class="ion-checkmark"></i>&nbsp;&nbsp;Listo</button>
+    </div>
+  </ion-footer-bar>
+</ion-modal-view>

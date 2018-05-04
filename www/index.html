@@ -2,44 +2,101 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src gap://ready file://* *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *; img-src 'self' data: * blob: *;">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
-    <link rel="manifest" href="manifest.json">
+    <!--<link href="lib/ionic/css/ionic.css" rel="stylesheet">-->
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above -->
+    <link href="css/ionic.app.min.css" rel="stylesheet">
 
-    <!-- un-comment this code to enable service worker
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(() => console.log('service worker installed'))
-          .catch(err => console.log('Error', err));
-      }
-    </script>-->
-
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <!-- custom css -->
     <link href="css/style.css" rel="stylesheet">
-
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
+    <link href="css/css-circular-prog-bar.css" rel="stylesheet">
+    <link href="lib/ng-material-floating-button/mfb/dist/mfb.min.css" rel="stylesheet">
+    <link href="lib/angular-chart.js/dist/angular-chart.min.css" rel="stylesheet">
+    <link href="lib/photoswipe/dist/photoswipe.css" rel="stylesheet">
+    <link href="lib/photoswipe/dist/default-skin/default-skin.css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic/js/ionic.bundle.min.js"></script>
+
+    <!-- ngCordova js -->
+    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/filters/generalFilters.js"></script>
+    <script src="js/filters/dateFilters.js"></script>
+    <script src="js/filters/stringFilters.js"></script>
+    <!-- controllers -->
+    <script src="js/controllers/appCtrl.js"></script>
+    <script src="js/controllers/loginCtrl.js"></script>
+    <script src="js/controllers/noconnCtrl.js"></script>
+    <script src="js/controllers/homeCtrl.js"></script>
+    <script src="js/controllers/configuracionCtrl.js"></script>
+    <script src="js/controllers/mapaCtrl.js"></script>
+    <!-- controllers del soporte -->
+    <script src="js/controllers/estadosSoporte/estadosSoporteCtrl.js"></script>
+    <script src="js/controllers/soportes/soporteCtrl.js"></script>
+    <script src="js/controllers/soportes/soporteFiltrosCtrl.js"></script>
+    <script src="js/controllers/soportes/soporteListadoCtrl.js"></script>
+    <script src="js/controllers/soportes/soporteDetalleCtrl.js"></script>
+    <script src="js/controllers/soportes/soporteFotosCtrl.js"></script>
+    <script src="js/controllers/soportes/soporteNotasCtrl.js"></script>
+    <script src="js/controllers/abonados/abonadoCtrl.js"></script>
+    <script src="js/controllers/abonados/abonadoDetalleCtrl.js"></script>
+    <script src="js/controllers/mensajes/mensajeCtrl.js"></script>
+    <script src="js/controllers/mensajes/mensajeListadoCtrl.js"></script>
+    <script src="js/controllers/mensajes/mensajeDetalleCtrl.js"></script>
+    <!-- controllers del las rutinas -->
+    <script src="js/controllers/rutinas/rutinaCtrl.js"></script>
+    <script src="js/controllers/rutinas/rutinaListadoCtrl.js"></script>
+    <!-- services -->
+    <script src="js/services/debugService.js"></script>
+    <script src="js/services/broadcastService.js"></script>
+    <script src="js/services/deviceService.js"></script>
+    <script src="js/services/configuracionService.js"></script>
+    <script src="js/services/notificacionService.js"></script>
+    <script src="js/services/geotrackingService.js"></script>
+    <script src="js/services/authService.js"></script>
+    <script src="js/services/registerService.js"></script>
+    <script src="js/services/soporteService.js"></script>
+    <script src="js/services/soporteEstadisticaService.js"></script>
+    <script src="js/services/usuarioService.js"></script>
+    <script src="js/services/abonadoService.js"></script>
+    <script src="js/services/mensajeService.js"></script>
+    <script src="js/services/rutinaService.js"></script>
+    <script src="js/services/formularioCierreService.js"></script>
+    <!-- plugins -->
+    <script src="lib/angular-mocks/angular-mocks.js"></script>
+    <script src="lib/angular-resource/angular-resource.min.js"></script>
+    <script src="lib/moment/min/moment-with-locales.min.js"></script>
+    <script src="lib/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
+    <script src="lib/lodash/dist/lodash.min.js"></script>
+    <script src="lib/angular-google-maps/dist/angular-google-maps.min.js"></script>
+    <script src="lib/signature_pad/signature_pad.min.js"></script>
+    <script src="lib/Chart.js/Chart.js"></script>
+    <script src="lib/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script src="lib/photoswipe/dist/photoswipe.min.js"></script>
+    <script src="lib/photoswipe/dist/photoswipe-ui-default.min.js"></script>
+    <script src="lib/ng-letter-avatar/dist/ngletteravatar.min.js"></script>
+    <script src="lib/angular-img-http-src/index.js"></script>
+    <script src="js/directives/angular-a-http-dataImage.js"></script>
+    <!-- Directives -->
+    <script src="js/directives/convert-to-number.js"></script>
+    <script src="js/directives/collapse-directive.js"></script>
+    <script src="lib/ng-material-floating-button/src/mfb-directive.js"></script>
+    <script src="lib/angular-click-outside/clickoutside.directive.js"></script>
   </head>
-  <body ng-app="starter">
-
-    <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
-      </ion-header-bar>
-      <ion-content>
-      </ion-content>
-    </ion-pane>
+  <body ng-app="starter" ng-controller="AppCtrl">
+    <ion-nav-view></ion-nav-view>
   </body>
 </html>

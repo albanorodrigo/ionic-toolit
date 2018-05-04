@@ -1,0 +1,66 @@
+<ion-view view-title="Home">
+  <ion-content>
+    <ion-refresher pulling-icon="ion-ios-arrow-down" 
+                   pulling-text="Tire para actualizar..." 
+                   spinner="ios" 
+                   on-refresh="pullToRefresh()">
+    </ion-refresher>
+    <div class="padding">
+      <div class="item item-divider"><p>Soportes cerrados en la semana</p></div>
+      <div class="item padding">
+        <canvas id="chartSoportesSemanal" 
+                class="chart chart-bar" 
+                chart-data="chartSoportesEstadoSemanal.data" 
+                chart-labels="chartSoportesEstadoSemanal.labels" 
+                chart-series="chartSoportesEstadoSemanal.series" 
+                chart-legend="{{chartSoportesEstadoSemanal.legend}}" 
+                chart-options="chartSoportesEstadoSemanal.options"></canvas>
+      </div>
+    </div>
+    <div class="padding">
+      <div class="item item-divider"><p>Soportes cerrados del mes</p></div>
+      <div class="item padding">
+        <canvas id="chartSoportesTecnico"
+                class="chart chart-pie"
+                chart-data="chartSoportesEstado.data" 
+                chart-labels="chartSoportesEstado.labels" 
+                chart-legend="{{chartSoportesEstado.legend}}" 
+                chart-options="chartSoportesEstado.options">
+        </canvas>
+      </div>
+    </div>
+    <div class="padding">
+      <div class="item item-divider"><p>Soportes promedios de reaccion</p></div>
+      <div class="item padding">
+        <canvas id="chartSoportesPromedio" 
+                class="chart chart-line"
+                chart-data="chartSoportesPromedio.data" 
+                chart-labels="chartSoportesPromedio.labels" 
+                chart-legend="{{chartSoportesPromedio.legend}}" 
+                chart-options="chartSoportesPromedio.options">
+        </canvas>
+      </div>
+    </div>
+    <div ng-if="false" class="row">
+      <button class="button button-full button-energized" ng-click="testclick()">TEST</button>
+      <div class="col text-center">
+        <h4 class="title">Bienvenido {{usuario.name}}!</h4>
+        This could be your Dashboard.
+        <br><br><br>
+        <span>Reg.ID: </span><span id="regId">{{gmcRegId}}</span>
+        <br><br>
+        <button class="button button-full button-positive" ng-click="performValidRequest()">
+          Make Valid Request
+        </button>
+        <button class="button button-full button-energized" ng-click="performUnauthorizedRequest()">
+          Make Request for unauthorized resource
+        </button>
+        <button class="button button-full button-assertive" ng-click="performInvalidRequest()">
+          Make Request without valid token
+        </button>
+        <br><br>
+        {{response}}
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

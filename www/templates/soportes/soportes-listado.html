@@ -1,0 +1,100 @@
+<ion-view view-title="Soportes">
+  <ion-nav-buttons side="right">
+    <button ng-click="showModalOrdenarSoportes()" class="button button-icon icon-medium ion-calendar">
+      <span style="line-height: 16px; font-size: 12px; padding: 0px 0px; width: 20px; top: -15px; right: -10px;" 
+            class="badge badge-assertive">{{ordenListadoActivo}}</span>
+    </button>
+    <button ng-if="adminSoportesActive" ng-click="filtrosSoportesCtrl.showModal()" class="button button-icon icon-medium ion-android-options">
+      <span ng-if="filtrosSoportesCtrl.countFiltrosAplicados()" 
+            style="line-height: 16px; font-size: 12px; padding: 0px 0px; width: 16px; top: -15px; right: -10px;" 
+            class="badge badge-assertive">{{filtrosSoportesCtrl.countFiltrosAplicados()}}</span>
+    </button>
+  </ion-nav-buttons>
+  <ion-header-bar ng-if="(checkSupervisionSoportes())" class="bar-subheader item-input-inset" style="color: #555;">
+    <div class="item-toggle bold">MODALIDAD SUPERVISIÓN</div>
+    <div style="position: absolute; right: 0px; top: -4px;">
+      <ion-toggle ng-model="adminSoportesActive" 
+                  ng-checked="adminSoportesActive" 
+                  ng-disabled="!checkSupervisionSoportesHabilitado()" 
+                  ng-change="onChangeAdminSoportesActive()" 
+                  class="toggle-only" toggle-class="toggle-positive">&nbsp;</ion-toggle>
+    </div>
+  </ion-header-bar>
+  <ion-content ng-class="(checkSupervisionSoportes()) ? 'has-subheader' : ''">
+    <ion-refresher pulling-icon="ion-ios-arrow-down" 
+                   pulling-text="Tire para actualizar..." 
+                   spinner="ios" 
+                   on-refresh="pullToRefresh()">
+    </ion-refresher>
+    <ion-item-group can-swipe="!adminSoportesActive">
+      <!-- | filter:filtrosSoportesCtrl.getFiltrosAplicados():true -->
+      <!-- | orderBy:'-tsCreacion' -->
+      <div collection-repeat="soporte in listaSoportes | orderBy:ordenListado" item-render-buffer="3" 
+           item-height="soporte.isSeparator ? 36 : adminSoportesActive ? 115 : 95">
+
+        <ion-item class="item-divider atraso" ng-class="getSoporteAtrasoColorClass(soporte.atraso.dias)" 
+                  ng-show="soporte.isSeparator">
+          {{ soporte.atraso.dias > 0 && adminSoportesActive ? "hace " : "" }}
+          {{ soporte.atraso.texto }} 
+          {{ soporte.atraso.dias > 0 && !adminSoportesActive ? " de atraso" : "" }}
+        </ion-item>
+        
+        <ion-item ng-hide="soporte.isSeparator"
+                  href="#/soporte/{{soporte.idSoporte}}/detalle" 
+                  class="custom-item-lista item-icon-right item-icon-left">
+        <i ng-class="getSoporteIconClass(soporte)"></i>
+        <i ng-if="(soporte.llamadas.length > 0)" 
+           class="ion-ios-telephone icon-small llamadas"> {{soporte.llamadas.length}}</i>
+        <span ng-if="checkShowSoportePrioridad(soporte)" class="priority-icon">
+          <i ng-class="getSoportePrioridadClass(soporte)"></i>
+          <i ng-if="(soporte.prioridad.prioridad > 1 || soporte.prioridad.prioridad < - 1)" ng-class="getSoportePrioridadClass(soporte)"></i>
+        </span>
+        <p>
+          <span class="codigo">{{soporte.codigoSoporte}}</span>
+          <span ng-if="!soporte.fechaHoraPlaneado" class="fecha-creacion">
+            {{(soporte.tsCreacion) ? (soporte.tsCreacion | tsFormatConditionalDateTime ) : '&nbsp;'}}
+          </span>
+          <span ng-if="soporte.fechaHoraPlaneado" class="fecha-planeado">
+            {{soporte.fechaHoraPlaneado | tsFormatDateTime}}
+          </span>
+        </p>
+        <h2 ng-if="checkShowSoporteCampo('lugar.nombre')" ng-class="(soporte.tsNotificacionLeida) ? '' : 'bold'">
+          {{soporte.lugar.nombre}}
+        </h2>
+        <!-- && (soporte.lugar.nombre != soporte.lugar.direccion) -->
+        <p ng-if="checkShowSoporteCampo('lugar.direccion')">{{soporte.lugar.direccion}}</p>
+        <p ng-if="adminSoportesActive" style="margin-bottom: 0px;">{{(soporte.idUsuarioAsignado) ? soporte.nombreUsuarioAsignado : 'Sin asignar...'}}</p>
+        <span ng-style="(getColorEstadoSoporte(soporte.idEstadoSoporte)) && {'background-color':getColorEstadoSoporte(soporte.idEstadoSoporte)}" 
+              ng-class="(getColorEstadoSoporte(soporte.idEstadoSoporte)) ? 'custom-color' : ''" 
+              class="badge">{{soporte.estadoSoporte}}</span>
+        <i ng-if="(soporte.notificacionesPendientes)" class="notification-icon ion-android-alert assertive"></i>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+        <ion-option-button ng-if="!showSoporteAceptarRechazarAction(soporte)" 
+                           class="button-gray icon-top" 
+                           ng-click="showActionSheetMasOpciones(soporte)">
+          <i class="icon ion-more"></i>
+          <span>&nbsp;&nbsp;&nbsp;Más&nbsp;&nbsp;&nbsp;</span>
+        </ion-option-button>
+        <ion-option-button ng-if="showSoporteAceptarRechazarAction(soporte)" 
+                           class="button-assertive icon-top" 
+                           ng-click="rechazar(soporte)">
+          <i class="icon ion-android-close"></i>
+          <span>&nbsp;Rechazar&nbsp;</span>
+        </ion-option-button>
+        <ion-option-button ng-if="showSoporteAceptarRechazarAction(soporte)" 
+                           class="button-balanced icon-top" 
+                           ng-click="aceptar(soporte)">
+          <i class="icon ion-android-done"></i>
+          <span>&nbsp;&nbsp;Aceptar&nbsp;&nbsp;</span>
+        </ion-option-button>
+      </ion-item>
+        
+      </div>
+      
+      
+    </ion-item-group>
+    <ion-infinite-scroll on-infinite="infiniteScrollCargarMasDatos()" 
+                         immediate-check="false" 
+                         ng-if="infiniteScrollHayMasDatos()"></ion-infinite-scroll>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,19 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive" align-title="left">
+    <h1 class="title"><i class="icon ion-ios-pulse-strong"></i>&nbsp;&nbsp;Ordenar los soportes</h1>
+    <button ng-click="hideModalOrdenarSoportes()" class="button button-icon ion-android-close"></button>
+  </ion-header-bar>
+  <ion-content>
+    
+    <div class="custom-radio-list">
+      <ion-radio ng-repeat="orden in ordenListadoOpciones"
+                 ng-value="orden.nombre"
+                 ng-model="ordenListadoActivo"
+                 ng-change="ordenarSoportes(orden)">
+        <span style="display: unset; position: unset; right:auto" class="badge badge-positive">{{orden.nombre}}</span>
+        {{orden.desc}}
+      </ion-radio>
+    </div>
+
+  </ion-content>
+</ion-modal-view>

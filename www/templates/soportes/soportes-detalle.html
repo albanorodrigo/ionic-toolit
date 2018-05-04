@@ -1,0 +1,224 @@
+<ion-view>
+  <ion-nav-title>Soporte {{soporte.codigoSoporte}}</ion-nav-title>
+  <ion-nav-buttons side="right"> 
+    <button ng-if="false" ng-click="showAccionesSoporte($event)" class="button button-icon ion-more"></button>
+  </ion-nav-buttons>
+  <ion-content padding="false">
+    <ion-refresher pulling-icon="ion-ios-arrow-down" 
+                   pulling-text="Tire para actualizar..." 
+                   spinner="ios" 
+                   on-refresh="pullToRefresh()" ng-if="false">
+    </ion-refresher>
+    <div class="button-bar" style="padding-bottom: 10px;" ng-if="false">
+      <a class="button button-small active stable-border"><i ng-if="true" class="ion-filing"></i>&nbsp;&nbsp;Datos</a>
+      <a class="button button-small stable-border"><i ng-if="true" class="ion-compose"></i>&nbsp;&nbsp;Notas</a>
+      <a class="button button-small stable-border"><i ng-if="true" class="ion-images"></i>&nbsp;&nbsp;Fotos</a>
+    </div>
+    <div class="card" style="margin: 0px;">
+      <!-- header soporte (min-height: 50px;) -->
+      <div class="item item-stable item-text-wrap" style="padding: 10px">
+
+        <div style="display:flex">
+          <div ng-if="checkShowSoportePrioridad(soporte)" class="priority-icon-badge" ng-class="getSoportePrioridadColorClass(soporte)">
+            <i ng-class="getSoportePrioridadClass(soporte)"></i>
+            <i ng-class="getSoportePrioridadClass(soporte)" ng-if="(soporte.prioridad.prioridad > 1 || soporte.prioridad.prioridad < -1)"></i>
+          </div>
+          
+          <div class="llamadas">
+            <i class="ion-ios-telephone icon-small">&nbsp;{{soporte.llamadas.length}}</i>
+          </div>
+          
+          <div style="flex:1; margin-left: 5px;">
+            <span ng-style="(getColorEstadoSoporte(soporte.idEstadoSoporte)) && {'background-color':getColorEstadoSoporte(soporte.idEstadoSoporte)}" 
+                  ng-class="(getColorEstadoSoporte(soporte.idEstadoSoporte)) ? 'custom-color' : ''" 
+                  ng-click="showModalEstadoSoporte($event)"
+                  class="estado-soporte" style="color: #FFF; width: 100%">
+              {{soporte.estadoSoporte}}
+              &nbsp;&nbsp;<i class="icon ion-loop icon-accessory"></i>
+            </span>
+          </div>
+        </div>
+        
+        <!--prioridad -- >
+        <span ng-if="checkShowSoportePrioridad(soporte)" class="priority-icon-badge">
+          <i ng-class="getSoportePrioridadClass(soporte)"></i>
+          <i ng-if="(soporte.prioridad.prioridad > 1 || soporte.prioridad.prioridad < -1)" ng-class="getSoportePrioridadClass(soporte)"></i>
+        </span>
+        <!-- llamadas -- >
+        <span class="llamadas">
+          <i class="ion-ios-telephone icon-small">&nbsp;{{soporte.llamadas.length}}</i>
+        </span>
+        <!-- estado -- >
+        <span ng-style="(getColorEstadoSoporte(soporte.idEstadoSoporte)) && {'background-color':getColorEstadoSoporte(soporte.idEstadoSoporte)}" 
+              ng-class="(getColorEstadoSoporte(soporte.idEstadoSoporte)) ? 'custom-color' : ''" 
+              ng-click="showModalEstadoSoporte($event)"
+              class="estado-soporte" style="color: #FFF; position: initial; display: block; margin-left: 36px">
+          {{soporte.estadoSoporte}}
+          &nbsp;&nbsp;<i class="icon ion-loop icon-accessory"></i>
+        </span>
+        
+      </div>
+
+      <!-- planeado -->
+      <div ng-if="soporte.fechaHoraPlaneado" class="planeado">
+        Planeado: {{soporte.fechaHoraPlaneado | tsFormatDateTime}}
+      </div>
+
+      <!-- abonado -->
+      <a ng-if="checkShowSoporteCampo('abonado.nombre')" class="item item-icon-left item-icon-right dark" style="padding-bottom: 10px; padding-top: 10px; position: relative;" ng-click="showInfoAbonado()">
+        <div style="position: absolute; left: 11px; top: 50%; margin-top: -13px;">
+          <ng-letter-avatar data="{{soporte.abonado.nombre}}" shape="round" charCount="2" dynamic="true" fontSize="14" width="26" height="26" avatarcustombgcolor="#F18636"></ng-letter-avatar>
+        </div>
+        {{(soporte.abonado.nombre)? soporte.abonado.nombre : '&nbsp;'}}
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </a>
+
+      <!-- direccion -->
+      <a ng-if="checkShowSoporteCampo('lugar.direccion')" ng-click="showMapaSoporte()" class="item item-icon-left item-icon-right icon-right dark item-text-wrap" style="padding-bottom: 10px; padding-top: 10px;">
+        <i class="icon ion-location icon-medium positive"></i>
+        {{(soporte.lugar.nombre) ? soporte.lugar.nombre : '&nbsp;'}}<br/>
+        {{(soporte.lugar.direccion)? soporte.lugar.direccion : '&nbsp;'}}
+        <i class="icon ion-map icon-accessory"></i>
+      </a>
+            
+      <div class="item item-icon-right" style="padding-bottom: 10px; padding-top: 10px; font-size: 14px; color: #666;"
+           ng-if="soporte.contacto1.contacto || soporte.contacto2.contacto || soporte.contacto3.contacto"
+           ng-click="toggleContactos()" >
+        <span style="margin-left: 3px;">
+          <i ng-class="(mostrarContactos) ? 'ion-minus-round' : 'ion-plus-round'"></i>
+          &nbsp;&nbsp;{{(mostrarContactos) ? 'Esconder contactos...' : 'Ver contactos...'}}
+        </span>
+        <i class="icon ion-chevron-down icon-accessory animate-rotate180" ng-class="(mostrarContactos) ? 'active' : ''"></i>
+      </div>
+
+      <div ng-show="mostrarContactos">
+
+        <a ng-if="soporte.contacto1.contacto" class="item item-icon-left item-icon-right dark" href="tel:{{soporte.contacto1.tel}}" style="padding-bottom: 10px; padding-top: 10px;">
+          <i class="icon ion-ios-telephone icon-medium balanced"></i>
+          {{(soporte.contacto1.contacto)? soporte.contacto1.contacto+': '+soporte.contacto1.tel : '&nbsp;'}} 
+          <span if="soporte.contacto1.notas"><br/>{{soporte.contacto1.notas}}</span>
+          <i class="icon ion-ios-keypad icon-accessory"></i>
+        </a>
+        <a ng-if="soporte.contacto2.contacto" class="item item-icon-left item-icon-right dark" href="tel:{{soporte.contacto2.tel}}" style="padding-bottom: 10px; padding-top: 10px;">
+          <i class="icon ion-ios-telephone icon-medium balanced"></i>
+          {{(soporte.contacto2.contacto)? soporte.contacto2.contacto+': '+soporte.contacto2.tel : '&nbsp;'}}
+          <i class="icon ion-ios-keypad icon-accessory"></i>
+        </a>
+        <a ng-if="soporte.contacto3.contacto" class="item item-icon-left item-icon-right dark" href="tel:{{soporte.contacto3.tel}}" style="padding-bottom: 10px; padding-top: 10px;">
+          <i class="icon ion-ios-telephone icon-medium balanced"></i>
+          {{(soporte.contacto3.contacto)? soporte.contacto3.contacto+': '+soporte.contacto3.tel : '&nbsp;'}}
+          <i class="icon ion-ios-keypad icon-accessory"></i>
+        </a>
+      
+        <a ng-if="checkShowSoporteCampo('lugar.telefono')" class="item item-icon-left item-icon-right dark" href="tel:{{soporte.lugar.telefono}}" style="padding-bottom: 10px; padding-top: 10px;">
+          <i class="icon ion-ios-telephone icon-medium balanced"></i>
+          Contacto lugar: {{(soporte.lugar.telefono)? soporte.lugar.telefono : '&nbsp;'}}
+          <i class="icon ion-ios-keypad icon-accessory"></i>
+        </a>
+        
+      </div>
+      <!-- texto del mensaje, o sea reclamo, motivo, etc -->
+      <div ng-if="(checkShowSoporteCampo('textoMensaje') && soporte.textoMensaje)" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px;">
+        <i class="icon ion-android-textsms icon-medium dark-mid"></i>
+        <span ng-class="(soporte.textoMensaje) ? '' : 'empty-text'">{{(soporte.textoMensaje) ? soporte.textoMensaje : 'Sin mensaje'}}</span>
+      </div>
+      
+      <a ng-click="showFotosSoporte()" class="item item-icon-left item-icon-right dark" style="padding-bottom: 10px; padding-top: 10px; position: relative;">
+        <i class="icon ion-images icon-medium dark"></i>
+        Ver fotos
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </a>
+      <div ng-if="adminSoportesActive" class="item item-icon-left item-icon-right dark" style="padding-bottom: 10px; padding-top: 10px; position: relative;">
+        <div style="position: absolute; left: 11px; top: 50%; margin-top: -13px;">
+          <ng-letter-avatar data="{{(soporte.nombreUsuarioAsignado) ? soporte.nombreUsuarioAsignado : 'Sin asignar...'}}" shape="round" charCount="2" dynamic="true" fontSize="14" width="26" height="26" avatarcustombgcolor="#2980b9"></ng-letter-avatar>
+        </div>
+        <span ng-class="(soporte.idUsuarioAsignado) ? '' : 'empty-text'">{{(soporte.idUsuarioAsignado) ? soporte.nombreUsuarioAsignado : 'Sin asignar...'}}</span>
+      </div>
+      <div ng-if="(checkShowSoporteCategoria() && soporte.categoria.idCategoria)" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px;">
+        <i class="icon ion-network icon-medium dark-mid rotate180"></i>
+        <span ng-class="(soporte.categoria.idCategoria) ? '' : 'empty-text'">{{(soporte.categoria.idCategoria) ? soporte.categoria.nombre : 'Sin categoria'}}</span>
+      </div>
+      <div ng-if="(checkShowSoporteRangoHorario() && soporte.rangoHorario.idRango)" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px;">
+        <i class="icon ion-android-time icon-medium dark-mid"></i>
+        <span ng-class="(soporte.rangoHorario.idRango) ? '' : 'empty-text'">{{(soporte.rangoHorario.idRango) ? (soporte.rangoHorario | soporteRangoHorario) : 'Sin rango horario'}}</span>
+      </div>
+      <div class="item item-icon-right" ng-click="toggleMostrarMasDetalles()" style="padding-bottom: 10px; padding-top: 10px; font-size: 14px; color: #666;">
+        <span style="margin-left: 3px;">
+          <i ng-class="(mostrarMasDetalles) ? 'ion-minus-round' : 'ion-plus-round'"></i>
+          &nbsp;&nbsp;{{(mostrarMasDetalles) ? 'Esconder detalles...' : 'Ver mas detalles...'}}
+        </span>
+        <i class="icon ion-chevron-down icon-accessory animate-rotate180" ng-class="(mostrarMasDetalles) ? 'active' : ''"></i>
+      </div>
+      <div ng-show="mostrarMasDetalles">
+        <div class="item item-complex" style="margin-top: 1px;">
+          <div ng-if="(checkShowSoporteRubro() && soporte.rubro.idRubro)" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px;">
+            <i class="icon ion-pricetag icon-medium dark-mid"></i>
+            <span ng-class="(soporte.rubro.idRubro) ? '' : 'empty-text'">{{(soporte.rubro.idRubro) ? soporte.rubro.nombre : 'Sin rubro'}}</span>
+          </div>
+          <div ng-if="(checkShowSoporteGrupo() && soporte.grupo.idGrupo)" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px;">
+            <i class="icon ion-ios-people icon-medium dark-mid"></i>
+            <span ng-class="(soporte.grupo.idGrupo) ? '' : 'empty-text'">{{(soporte.grupo.idGrupo) ? soporte.grupo.nombre : 'Sin grupo'}}</span>
+          </div>
+          <div ng-if="(checkShowSoporteCampo('observaciones') && soporte.observaciones)" class="item item-icon-left item-text-wrap" style="padding-bottom: 10px; padding-top: 10px;">
+            <i class="icon ion-ios-information-outline icon-medium dark-mid"></i>
+            <span ng-class="(soporte.observaciones) ? '' : 'empty-text'">{{(soporte.observaciones) ? soporte.observaciones : 'Sin observaciones'}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row dark text-center stable-bg" style="font-size: 14px; padding: 0px;">
+        <div ng-if="checkShowSoporteCampo('tsCreacion')" class="col" style="color: #666"><i class="ion-android-calendar"></i> Creado</div>
+        <div ng-if="checkShowSoporteCampo('tsInicio')" class="col" style="color: #666"><i class="ion-android-calendar"></i> Iniciado</div>
+        <div ng-if="checkShowSoporteCampo('tsCierre')" class="col" style="color: #666"><i class="ion-android-calendar"></i> Cerrado</div>
+      </div>
+      <div class="row dark text-center stable-bg" style="font-size: 12px; padding: 0px;">
+        <div ng-if="checkShowSoporteCampo('tsCreacion')" class="col" style="padding-top: 3px; color: #666">{{(soporte.tsCreacion) ? (soporte.tsCreacion | tsFormatDateTime) : '&nbsp;'}}</div>
+        <div ng-if="checkShowSoporteCampo('tsInicio')" class="col" style="padding-top: 3px; color: #666">{{(soporte.tsInicio) ? (soporte.tsInicio | tsFormatDateTime) : '&nbsp;'}}</div>
+        <div ng-if="checkShowSoporteCampo('tsCierre')" class="col" style="padding-top: 3px; color: #666">{{(soporte.tsCierre) ? (soporte.tsCierre | tsFormatDateTime) : '&nbsp;'}}</div>
+      </div>
+    </div>
+    <div style="padding: 10px 0px;">
+      <ol class="discussion">
+        <li class="other" ng-repeat="nota in soporteNotas | orderBy:'-ts'">
+          <div class="message">
+            <div class="message-name">{{nota.nombreUsuarioCreador}} - {{nota.ts | tsFormatDateTime}}</div>
+            <div>
+              <div class="message-text">{{nota.texto}}</div>
+              <div class="message-avatar">
+                <ng-letter-avatar charCount="2" data="{{nota.nombreUsuarioCreador}}" shape="round"></ng-letter-avatar>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ol>
+      <ion-list ng-if="false" ng-repeat="nota in soporteNotas | orderBy:'-ts'">
+        <div class="card" style="margin: 0px 0px 10px 0px;">
+          <div class="item item-divider" style="padding: 5px 10px 0px 10px;">
+            <span style="font-size: 12px; float: left; color: #666;">{{nota.nombreUsuarioCreador}}</span>
+            <span style="font-size: 12px; float: right; color: #666;">{{nota.ts | tsFormatDateTime}}</span>
+          </div>
+          <div class="item item-text-wrap dark" style="padding: 5px 10px;">{{nota.texto}}</div>
+        </div>
+      </ion-list>
+    </div>
+  </ion-content>
+  <ion-footer-bar style="padding: 0px;" ng-show="showSoporteActions(soporte) && !(adminSoportesActive)">
+    <div class="button-bar" ng-if="showSoporteAceptarRechazarAction(soporte)">
+      <button ng-click="rechazarSoporte(soporte)" class="button border-radius-none button-assertive"><i class="ion-close"></i>&nbsp;&nbsp;RECHAZAR</button>
+      <button ng-click="aceptarSoporte(soporte)" class="button border-radius-none button-balanced"><i class="ion-checkmark"></i>&nbsp;&nbsp;ACEPTAR</button>
+    </div>
+    <div class="button-bar" ng-if="!showSoporteAceptarRechazarAction(soporte)">
+      <button ng-if="showSoporteIniciarAction(soporte)" ng-click="iniciarSoporte(soporte)" class="button border-radius-none button-balanced"><i class="ion-ios-play"></i>&nbsp;&nbsp;INICIAR SOPORTE</button>
+      <button ng-if="showSoporteCerrarAction(soporte)" ng-click="showModalCerrarSoporte()" class="button border-radius-none button-assertive"><i class="ion-locked"></i>&nbsp;&nbsp;CERRAR SOPORTE</button>
+      <button ng-if="showSoporteTomarAction(soporte)" ng-click="tomarSoporte(soporte)" class="button border-radius-none button-dark"><i class="ion-briefcase"></i>&nbsp;&nbsp;TOMAR SOPORTE</button>
+    </div>
+  </ion-footer-bar>
+  <mfb-menu ng-show="(soporte)" click-outside="hideFloatMenu()" 
+            position="br" effect="slidein-spring" toggling-method="click" 
+            resting-icon="ion-plus-round" active-icon="ion-close-round" 
+            menu-state="floatMenuState" class="mfb-has-footer">
+    <mfb-button ng-if="showSoporteDelegarAction(soporte)" ng-click="showModalDelegarSoporte(soporte); hideFloatMenu();" icon="ion-shuffle" label="Delegar soporte"></mfb-button>
+    <mfb-button ng-if="false" icon="ion-android-attach" label="Adjuntar archivo"></mfb-button>
+    <mfb-button ng-click="showActionSheetFoto(); hideFloatMenu();" icon="ion-camera" label="Añadir foto"></mfb-button>
+    <mfb-button ng-click="showModalNotaSoporte(); hideFloatMenu();" icon="ion-compose" label="Añadir nota"></mfb-button>
+  </mfb-menu>
+</ion-view>
